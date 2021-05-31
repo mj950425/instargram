@@ -72,8 +72,6 @@ public class AuthController {
             result.put("code", "400");
             result.put("type", "FAIL");
             result.put("message", "입력 정보 오류");
-
-
         }
 
         return result;
