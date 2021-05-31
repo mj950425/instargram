@@ -50,25 +50,33 @@ public class AuthController {
         }
         log.info(signupDto.toString());
         User user = signupDto.toEntity();
-        User userEntity = authService.회원가입(user);
+        User userEntity = authService.join(user);
         System.out.println(userEntity);
         return "auth/signin";
     }
 
     @PostMapping(value = "/auth/findpw")
-    public String findpw(@RequestBody UserFindPasswordDTO userFindPasswordDTO) { // username, email
-        String result = null;
+    public Object findpw(@RequestBody UserFindPasswordDTO userFindPasswordDTO) { // username, email,주식경력
+        Map<String, String> result = new HashMap<>();
 
         String username_temp = userFindPasswordDTO.getUsername();
-        User user = authService.회원찾기(username_temp);
-        if (user != null) {
-            System.out.println("유저 정보 확인 : " + user);
+        User user = authService.findUser(username_temp);
 
-        } else {
-            result = "Fail";
+        if(user.getPassword() != null && user.getName().equals(userFindPasswordDTO.getName())  && user.getEmail().equals(userFindPasswordDTO.getEmail()) ) {
+            String password = authService.updatePassword(userFindPasswordDTO);
+            result.put("code", "200");
+            result.put("type", "SUCCESS");
+            result.put("data", password);
+
+        }else{
+            result.put("code", "400");
+            result.put("type", "FAIL");
+            result.put("message", "입력 정보 오류");
+
+
         }
-        return result;
 
+        return result;
     }
 }
 

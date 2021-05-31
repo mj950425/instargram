@@ -2,33 +2,48 @@ package com.cos.photogramstart.service;
 
 import com.cos.photogramstart.domain.user.User;
 import com.cos.photogramstart.domain.user.UserRepository;
+import com.cos.photogramstart.web.UserFindPasswordDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
+    @Autowired
+    private UserRepository userRepository;
 
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
-    @org.springframework.transaction.annotation.Transactional(readOnly = true)
-    public User 회원찾기(String username) {
+    @Transactional(readOnly = true)
+    public User findUser(String username) {
         User user = userRepository.findByUsername(username).orElseGet(()->{
             return new User();
         });
         return user;
     }
+    @Transactional
+    public String updatePassword(UserFindPasswordDTO userFindPasswordDTO) {
 
+        User persistance = findUser(userFindPasswordDTO.getUsername());
+        String tempPw = UUID.randomUUID().toString().replace("-", "");
+        tempPw = tempPw.substring(0,10);
+        String encPassword = encoder.encode(tempPw);
+        persistance.setPassword(encPassword);
+        return tempPw;
+    }
 
     @Transactional
-    public User 회원가입(User user) {
+    public User join(User user) {
 
         String rawPassword = user.getPassword();
-        String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+        String encPassword = encoder.encode(rawPassword);
         user.setPassword(encPassword);
         user.setRole("ROLE_USER");
         User userEntity = userRepository.save(user);
