@@ -21,33 +21,31 @@ public class AuthService {
     @Autowired
     private BCryptPasswordEncoder encoder;
 
-    @Transactional(readOnly = true)
-    public User findUser(String username) {
-        User user = userRepository.findByUsername(username).orElseGet(()->{
-            return new User();
-        });
-        return user;
-    }
-    @Transactional
-    public String updatePassword(UserFindPasswordDTO userFindPasswordDTO) {
-
-        User persistance = findUser(userFindPasswordDTO.getUsername());
-        String tempPw = UUID.randomUUID().toString().replace("-", "");
-        tempPw = tempPw.substring(0,10);
-        String encPassword = encoder.encode(tempPw);
-        persistance.setPassword(encPassword);
-        return tempPw;
-    }
+//    @Transactional(readOnly = true)
+//    public User findUser(String username) {
+//        User userEntity = userRepository.findByUsername(username).orElseGet(()->{
+//            return new User();
+//        });
+//        return userEntity;
+//    }
+//    @Transactional
+//    public String updatePassword(UserFindPasswordDTO userFindPasswordDTO) {
+//
+//        User persistance = findUser(userFindPasswordDTO.getUsername());
+//        String tempPw = UUID.randomUUID().toString().replace("-", "");
+//        tempPw = tempPw.substring(0,10);
+//        String encPassword = encoder.encode(tempPw);
+//        persistance.setPassword(encPassword);
+//        return tempPw;
+//    }
 
     @Transactional
     public User join(User user) {
-
         String rawPassword = user.getPassword();
         String encPassword = encoder.encode(rawPassword);
         user.setPassword(encPassword);
         user.setRole("ROLE_USER");
         User userEntity = userRepository.save(user);
-
         return userEntity;
     }
 }

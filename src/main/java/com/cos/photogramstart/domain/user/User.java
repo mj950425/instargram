@@ -25,6 +25,9 @@ public class User {
     @Column(nullable = false)
     private String name;
     private String website;
+    private String bio;
+
+
     @Column(nullable = false)
     private String email;
     private String phone;
@@ -38,5 +41,6 @@ public class User {
     public void createDate() {
         this.createDate = LocalDateTime.now();
     }
+
 
 }

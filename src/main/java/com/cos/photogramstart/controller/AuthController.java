@@ -59,27 +59,27 @@ public class AuthController {
         }
        }
 
-    @PostMapping(value = "/auth/findpw")
-    public Object findpw(@RequestBody UserFindPasswordDTO userFindPasswordDTO) { // username, email,주식경력
-        Map<String, String> result = new HashMap<>();
-
-        String username_temp = userFindPasswordDTO.getUsername();
-        User user = authService.findUser(username_temp);
-
-        if(user.getPassword() != null && user.getName().equals(userFindPasswordDTO.getName())  && user.getEmail().equals(userFindPasswordDTO.getEmail()) ) {
-            String password = authService.updatePassword(userFindPasswordDTO);
-            result.put("code", "200");
-            result.put("type", "SUCCESS");
-            result.put("data", password);
-
-        }else{
-            result.put("code", "400");
-            result.put("type", "FAIL");
-            result.put("message", "입력 정보 오류");
-        }
-
-        return result;
-    }
+//    @PostMapping(value = "/auth/findpw")
+//    public Object findpw(@RequestBody UserFindPasswordDTO userFindPasswordDTO) { // username, email,주식경력
+//        Map<String, String> result = new HashMap<>();
+//
+//        String username_temp = userFindPasswordDTO.getUsername();
+//        User user = authService.findUser(username_temp);
+//
+//        if(user.getPassword() != null && user.getName().equals(userFindPasswordDTO.getName())  && user.getEmail().equals(userFindPasswordDTO.getEmail()) ) {
+//            String password = authService.updatePassword(userFindPasswordDTO);
+//            result.put("code", "200");
+//            result.put("type", "SUCCESS");
+//            result.put("data", password);
+//
+//        }else{
+//            result.put("code", "400");
+//            result.put("type", "FAIL");
+//            result.put("message", "입력 정보 오류");
+//        }
+//
+//        return result;
+//    }
 }
 
 
