@@ -1,9 +1,10 @@
 package com.cos.photogramstart.controller;
 
 import com.cos.photogramstart.domain.user.User;
+import com.cos.photogramstart.handler.ex.CustomValidationException;
 import com.cos.photogramstart.service.AuthService;
-import com.cos.photogramstart.web.SignupDto;
-import com.cos.photogramstart.web.UserFindPasswordDTO;
+import com.cos.photogramstart.web.auth.SignupDto;
+import com.cos.photogramstart.web.auth.UserFindPasswordDTO;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,13 +48,16 @@ public class AuthController {
                 errorMap.put(error.getField(), error.getDefaultMessage());
                 System.out.println(error.getDefaultMessage());
             }
+            throw new CustomValidationException("유효성검사 실패", errorMap);
+        } else {
+            log.info(signupDto.toString());
+            User user = signupDto.toEntity();
+            User userEntity = authService.join(user);
+            System.out.println(userEntity);
+            return "auth/signin";
+
         }
-        log.info(signupDto.toString());
-        User user = signupDto.toEntity();
-        User userEntity = authService.join(user);
-        System.out.println(userEntity);
-        return "auth/signin";
-    }
+       }
 
     @PostMapping(value = "/auth/findpw")
     public Object findpw(@RequestBody UserFindPasswordDTO userFindPasswordDTO) { // username, email,주식경력
