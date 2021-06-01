@@ -1,4 +1,4 @@
-package com.cos.photogramstart.web.auth;
+package com.cos.photogramstart.web.dto;
 
 import lombok.Data;
 
