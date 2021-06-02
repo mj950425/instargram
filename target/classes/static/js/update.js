@@ -15,8 +15,11 @@ function update(userId,event) {
 	}).done(res=>{ // HttpStatus 상태코드 200번대
 		console.log("성공",res);
 	}).fail(error=>{ // HttpStatus 상태코드 200번대가 아닐 때
-	    alert(JSON.stringify(error.responseJSON.data));
-		console.log("실패",error);
+	    if(error.data==null){
+        alert(error.responseJSON.message);
+	    }else{
+        alert(JSON.stringify(error.responseJSON.data));
+	    }
 
 	});
 }
