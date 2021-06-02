@@ -1,4 +1,4 @@
-package com.cos.photogramstart.domain.subscribe;
+package com.cos.photogramstart.domain.image;
 
 import com.cos.photogramstart.domain.user.User;
 import lombok.AllArgsConstructor;
@@ -14,35 +14,25 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(
-        uniqueConstraints ={
-                @UniqueConstraint(
-                        name="subscribe_uk",
-                        columnNames = {"fromUserID","toUserId"}//실제 데이터베이스의 컬럼명
-                )
-
-        }
-)
-public class Subscribe {
+public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @JoinColumn(name = "fromUserId")
+    private String caption;
+    private String postImageUrl;
+
+    @JoinColumn(name = "userId")
     @ManyToOne
-    private User fromUser;
-
-    @JoinColumn(name = "toUserId")
-    @ManyToOne
-    private User toUser;
-
-
+    private User user;
     private LocalDateTime createDate;
 
     @PrePersist //DB에 insert되기 직전에 실행
     public void createDate() {
         this.createDate = LocalDateTime.now();
     }
+
+
 
 
 }
