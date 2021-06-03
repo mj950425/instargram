@@ -1,6 +1,7 @@
 package com.cos.photogramstart.handler;
 
 import com.cos.photogramstart.handler.ex.CustomApiException;
+import com.cos.photogramstart.handler.ex.CustomException;
 import com.cos.photogramstart.handler.ex.CustomValidationApiException;
 import com.cos.photogramstart.handler.ex.CustomValidationException;
 import com.cos.photogramstart.web.CMRespDto;
@@ -18,16 +19,28 @@ import java.util.Map;
 public class ControllerExceptionHandler {
     @ExceptionHandler(CustomValidationException.class)
     public String validationException(CustomValidationException e) {
-        return Script.back(e.getErrorMap().toString());
+        if(e.getErrorMap()==null){
+            return Script.back(e.getMessage());
+        }else{
+            return Script.back(e.getErrorMap().toString());
+        }
     }
 
     @ExceptionHandler(CustomValidationApiException.class)
     public ResponseEntity<?> validationApiException(CustomValidationApiException e) {
-        return new ResponseEntity<>(new CMRespDto<>(500,e.getMessage(),e.getErrorMap()),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new CMRespDto<>(500, e.getMessage(), e.getErrorMap()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(CustomApiException.class)
     public ResponseEntity<?> apiException(CustomApiException e) {
-        return new ResponseEntity<>(new CMRespDto<>(500,e.getMessage(),null),HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new CMRespDto<>(500, e.getMessage(), null), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(CustomException.class)
+    public String validationException(CustomException e) {
+       return Script.back(e.getMessage().toString());
+
+    }
+
+
 }
