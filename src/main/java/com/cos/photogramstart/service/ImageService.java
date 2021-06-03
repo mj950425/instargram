@@ -8,6 +8,7 @@ import com.cos.photogramstart.web.dto.image.ImageUploadDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.Valid;
 import java.nio.file.Files;
@@ -22,7 +23,10 @@ public class ImageService {
     @Value("${file.path}")
     private String uploadFolder;
 
+
     private final ImageRepository imageRepository;
+
+    @Transactional
     public void 사진업로드(ImageUploadDto imageUploadDto, PrincipalDetails principalDetails) {
         UUID uuid = UUID.randomUUID();
         String imageFileName = uuid+"_"+imageUploadDto.getFile().getOriginalFilename();

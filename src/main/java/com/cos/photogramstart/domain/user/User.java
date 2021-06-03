@@ -1,6 +1,7 @@
 package com.cos.photogramstart.domain.user;
 
 import com.cos.photogramstart.domain.image.Image;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -42,11 +43,8 @@ public class User {
     private String profileImageUrl;
     private String role;
 
-    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY) //나는 연관관계의 주인이 아니다. 그러므로 테이블에 컬럼을 만들지마.
-    //User를 select 할 때 해당 유저 Id로 등록된 이미지들을 다 가져와.
-    //Lazy = User를 select할 때 해당 User id로 등록된 image들을 가져오지마
-    //Eager = User를 select할 때 해당 User id로 등록된 image들을 전부 join해서 가져와
-
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"user"})
     private List<Image> images;
 
     @PrePersist //DB에 insert되기 직전에 실행
