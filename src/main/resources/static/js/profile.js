@@ -36,6 +36,7 @@ function toggleSubscribe(toUserId, obj) {
 		});
 	}
 }
+
 // (2) 구독자 정보  모달 보기
 function subscribeInfoModalOpen(pageUserId) {
 	$(".modal-subscribe").css("display", "flex");
@@ -54,8 +55,6 @@ function subscribeInfoModalOpen(pageUserId) {
 		console.log("구독정보 불러오기 오류", error);
 	});
 }
-
-
 function getSubscribeModalItem(u) {
 
 	let item = `<div class="subscribe__item" id="subscribeModalItem-${u.id}">
@@ -80,17 +79,6 @@ function getSubscribeModalItem(u) {
 
 	console.log(item);
 	return item;
-}
-
-
-function toggleSubscribeModal(obj) {
-	if ($(obj).text() === "구독취소") {
-		$(obj).text("구독하기");
-		$(obj).toggleClass("blue");
-	} else {
-		$(obj).text("구독취소");
-		$(obj).toggleClass("blue");
-	}
 }
 
 // (3) 유저 프로파일 사진 변경 (완)
