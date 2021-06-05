@@ -31,11 +31,6 @@ public class Image {
     private User user;
     private LocalDateTime createDate;
 
-    @PrePersist //DB에 insert되기 직전에 실행
-    public void createDate() {
-        this.createDate = LocalDateTime.now();
-    }
-
     // 이미지 좋아요
     @JsonIgnoreProperties({"image"})
     @OneToMany(mappedBy = "image")
@@ -47,4 +42,8 @@ public class Image {
     @Transient
     private int likeCount;
 
+    @PrePersist //DB에 insert되기 직전에 실행
+    public void createDate() {
+        this.createDate = LocalDateTime.now();
+    }
 }

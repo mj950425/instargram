@@ -43,13 +43,7 @@ public class ImageApiController {
         return new ResponseEntity<>(new CMRespDto<>(1, "좋아요취소성공", null), HttpStatus.OK);
     }
 
-    @GetMapping("/image/popular")
-    public String popular(Model model) {
-        List<Image> images = imageService.인기사진();
 
-        model.addAttribute("images", images);
-        return "image/popular";
-    }
 }
 
 
