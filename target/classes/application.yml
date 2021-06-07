@@ -21,7 +21,7 @@ spring:
   jpa:
     open-in-view: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
@@ -35,6 +35,16 @@ spring:
     user:
       name: test
       password: 1234   
+
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: 154205426728430
+            client-secret: 800247ada4ab34d6fae507b5d93b5ed2
+            scope:
+            - public_profile
+            - email
 
 file:
   path: C:/workspace/springbootwork/upload/
